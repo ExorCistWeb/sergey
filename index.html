@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#f6f7f3">
+  <title>Моё расписание</title>
+  <link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <div>
+        <p class="eyebrow" id="todayLabel">Расписание преподавателя</p>
+        <h1>Моё расписание</h1>
+      </div>
+      <button class="icon-button" id="openUpload" type="button" aria-label="Обновить расписание" title="Обновить расписание">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 16V4m0 0L7.5 8.5M12 4l4.5 4.5M5 14v4a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-4"/></svg>
+      </button>
+    </header>
+
+    <main>
+      <section class="summary-card" id="summaryCard" aria-live="polite">
+        <div class="summary-copy">
+          <span class="summary-kicker" id="summaryKicker">Сегодня</span>
+          <strong id="summaryTitle">Загружаем расписание…</strong>
+          <span id="summaryText">Это займёт пару секунд</span>
+        </div>
+        <div class="summary-number" id="summaryNumber">—</div>
+      </section>
+
+      <nav class="day-tabs" id="dayTabs" aria-label="Дни недели"></nav>
+
+      <section class="schedule-section">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow" id="selectedDate">Выбранный день</p>
+            <h2 id="selectedDay">Расписание</h2>
+          </div>
+          <span class="lesson-count" id="lessonCount"></span>
+        </div>
+        <div class="lesson-list" id="lessonList"></div>
+      </section>
+
+      <section class="week-section" id="weekSection" hidden>
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Все занятия</p>
+            <h2>Неделя</h2>
+          </div>
+        </div>
+        <div id="weekList"></div>
+      </section>
+
+      <section class="manage-section" id="manageSection" hidden>
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Источник данных</p>
+            <h2>Расписание</h2>
+          </div>
+        </div>
+
+        <button class="upload-zone" id="uploadZone" type="button">
+          <span class="upload-icon">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 16V4m0 0L7.5 8.5M12 4l4.5 4.5M5 14v4a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-4"/></svg>
+          </span>
+          <strong>Загрузить новый XLSX</strong>
+          <span>Нажмите или перетащите файл сюда</span>
+        </button>
+        <input id="fileInput" type="file" accept=".xlsx,.xls" hidden>
+
+        <div class="file-card" id="fileCard">
+          <div class="file-icon">XLSX</div>
+          <div class="file-info">
+            <strong id="fileName">Файл не загружен</strong>
+            <span id="fileMeta">—</span>
+          </div>
+          <button class="text-button" id="downloadFile" type="button" disabled>Скачать</button>
+        </div>
+
+        <label class="field">
+          <span>Фамилия преподавателя</span>
+          <div class="field-row">
+            <input id="teacherInput" value="Обеднин" autocomplete="off">
+            <button class="secondary-button" id="applyTeacher" type="button">Применить</button>
+          </div>
+          <small>Ищем фамилию во всех листах и ячейках таблицы.</small>
+        </label>
+
+        <div class="notice">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 8v4m0 4h.01M10.3 3.6 2.5 17.1A2 2 0 0 0 4.2 20h15.6a2 2 0 0 0 1.7-2.9L13.7 3.6a2 2 0 0 0-3.4 0Z"/></svg>
+          <p><strong>Данные хранятся на этом устройстве.</strong> После обновления страницы расписание не пропадёт. На другом телефоне файл потребуется загрузить заново.</p>
+        </div>
+      </section>
+    </main>
+
+    <nav class="bottom-nav" aria-label="Основная навигация">
+      <button class="nav-item is-active" data-view="day" type="button">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3v3m10-3v3M4 9h16M5 5h14a1 1 0 0 1 1 1v14H4V6a1 1 0 0 1 1-1Z"/></svg>
+        <span>Сегодня</span>
+      </button>
+      <button class="nav-item" data-view="week" type="button">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 6h13M8 12h13M8 18h13M3.5 6h.01M3.5 12h.01M3.5 18h.01"/></svg>
+        <span>Неделя</span>
+      </button>
+      <button class="nav-item" data-view="manage" type="button">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 16V4m0 0L7.5 8.5M12 4l4.5 4.5M5 14v4a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-4"/></svg>
+        <span>Файл</span>
+      </button>
+    </nav>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="assets/vendor/xlsx.full.min.js"></script>
+  <script src="assets/app.js"></script>
+</body>
+</html>
